@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles/jquery-ui.min.css">
+    <link href="node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+<!--    <link rel="stylesheet" href="styles/jquery-ui.min.css">-->
     <link rel="stylesheet" href="slick/slick.css">
     <link rel="stylesheet" href="slick/slick-theme.css">
+    <link rel="stylesheet" href="node_modules/animate.css/animate.min.css">
 
     <link rel="stylesheet" href="public/css/bundle.min.css">
 
@@ -66,10 +67,10 @@
                             <a href="#our-fruits" class="item">Наши фрукты</a>
                         </li>
                         <li>
-                            <a href="#how-to-order" class="header__link">Как заказать</a>
+                            <a href="#how-to-order" class="item">Как заказать</a>
                         </li>
                         <li>
-                            <a href="#reviews" class="header__link">Отзывы</a>
+                            <a href="#reviews" class="item">Отзывы</a>
                         </li>
 
                     </ul>
@@ -79,24 +80,24 @@
     </header>
 
     <div class="container-xl ">
-        <div class=" main-container  ">
-            <div class="main-title">
+        <div class=" main-container   ">
+            <div class="main-title wow animate__backInLeft">
 
 
                 <h2>Только свежие
                     экзотические фрукты
                     в нашем магазине</h2>
             </div>
-            <div class=" main-text ">
+            <div class=" main-text  wow animate__backInLeft">
                 <h5>Вкусные и необычные фрукты, которые
                     вы не найдете в магазине!</h5>
 
-                <button class="btn ">Посмотреть фрукты</button>
+                <a href="#our-fruits" class="btn wow animate__backInLeft">Посмотреть фрукты</a>
 
             </div>
 
 
-            <div class="main-image">
+            <div class="main-image  wow animate__backInRight">
 
                 <img src="images/main.png" alt="ananas" class="img-fluid">
             </div>
@@ -200,7 +201,7 @@
                             <del>78 руб.</del>
                         </div>
                     </div>
-                    <button class="btn orderButton">Заказать</button>
+                    <button class="btn orderButton  ">Заказать</button>
                     <div class="how-much">
                         <img src="images/little-mango.png" alt="little-mango">
                         <p>Сегодня этот манго купили уже <span>25 раз</span>!</p>
@@ -211,8 +212,8 @@
         </div>
     </div>
 </section>
-<section class="why-us" id="why-us">
-    <h2 class="text-center mb-4">Почему мы</h2>
+<section class="why-us " id="why-us">
+    <h2 class="text-center mb-4  ">Почему мы</h2>
     <div class="container-xl">
         <div class="row">
             <div class="why-us-item col-md-4 d-flex">
@@ -248,11 +249,11 @@
         <div class="our-fruits-items-container">
             <div class="col-md-6 btn-navigation mb-5">
                 <div class="nav-items mw-100" style="max-width: 600px;">
-                    <div class="our-fruits-nav ">
-                        <button type="button" class="btn  our-fruits-nav-item">Все</button>
-                        <button type="button" class="btn our-fruits-nav-item">Самые редкие</button>
-                        <button type="button" class="btn  our-fruits-nav-item">Акции</button>
-                        <button type="button" class="btn  our-fruits-nav-item">Новинки</button>
+                    <div class="our-fruits-nav">
+                        <button type="button" class="btn our-fruits-nav-item active" id="all">Все</button>
+                        <button type="button" class="btn our-fruits-nav-item" id="rare">Самые редкие</button>
+                        <button type="button" class="btn our-fruits-nav-item" id="sale">Акции</button>
+                        <button type="button" class="btn our-fruits-nav-item" id="new">Новинки</button>
                     </div>
                 </div>
             </div>
@@ -260,70 +261,6 @@
 
             <div class="products_items">
 
-                <div class=" products_item">
-                    <img src="images/манго.png" class="card-img " alt="mango">
-                    <div class="card-body">
-                        <h5 class="card-title">Манго, Вьетнам</h5>
-
-                        <p class="card-text">50 руб./кг</p>
-                        <button class="btn orderButton">Заказать</button>
-                    </div>
-                </div>
-
-
-                <div class="products_item">
-                    <img src="images/маракуйя.png" class="card-img " alt="маракуйя">
-                    <div class="card-body">
-                        <h5 class="card-title">Маракуйя, Таиланд</h5>
-
-                        <p class="card-text">45 руб./кг</p>
-                        <button class="btn orderButton">Заказать</button>
-                    </div>
-                </div>
-
-
-                <div class="products_item">
-                    <img src="images/кокос.png" class="card-img " alt="кокос">
-                    <div class="card-body">
-                        <h5 class="card-title">Кокос, ЮАР</h5>
-
-                        <p class="card-text">37 руб./кг</p>
-                        <button class="btn orderButton">Заказать</button>
-                    </div>
-
-                </div>
-
-                <div class=" products_item">
-                    <img src="images/питахайя.png" class="card-img " alt="питахайя">
-                    <div class="card-body">
-                        <h5 class="card-title">Питахайя, Таиланд</h5>
-
-                        <p class="card-text">61 руб./кг</p>
-                        <button class="btn orderButton">Заказать</button>
-                    </div>
-                </div>
-
-
-                <div class=" products_item">
-                    <img src="images/ананас.png" class="card-img " alt="ананас">
-                    <div class="card-body">
-                        <h5 class="card-title">Ананас, Таиланд</h5>
-
-                        <p class="card-text">48 руб./кг</p>
-                        <button class="btn orderButton">Заказать</button>
-                    </div>
-                </div>
-
-
-                <div class=" products_item">
-                    <img src="images/papaya.png" class="card-img " alt="папайя">
-                    <div class="card-body">
-                        <h5 class="card-title">Папайя, Бразилия</h5>
-
-                        <p class="card-text">57 руб./кг</p>
-                        <button class="btn orderButton">Заказать</button>
-                    </div>
-                </div>
 
 
             </div>
@@ -849,7 +786,7 @@
                 Все права защищены, 2020
             </div>
         </div>
-        <div class="icons ">
+        <div class="icons wow animate__pulse ">
             <a href="#">
                 <img src="images/facebook-logo.png" alt="facebook-logo">
             </a>
@@ -893,6 +830,10 @@
             </div>
             <button type="submit" class="form__button btn">Отправить</button>
         </form>
+
+        <div class="thank-you form__body">
+            "Спасибо за Ваш заказ. Мы скоро свяжемся с Вами!"
+        </div>
     </div>
     <!--    <div id="orderSuccessMessage" class="success-message" style="display: none;">-->
     <!--        Ваш заказ успешно принят, дождитесь звонка оператора.-->
@@ -901,10 +842,12 @@
 
 
 <script src="node_modules/jquery/dist/jquery.min.js"></script>
+<script src="node_modules/wow.js/dist/wow.js"></script>
 <script src="node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
 <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="scripts/jquery-ui.min.js"></script>
+
 <script src="scripts/slick.min.js"></script>
+
 <script src="scripts/script.js"></script>
 
 

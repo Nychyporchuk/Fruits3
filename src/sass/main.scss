@@ -263,6 +263,9 @@ h2 {
   //box-shadow: 0 0 18.69px 2.31px rgba(194, 170, 52, 0.21);
 
 }
+.btn:hover {
+  box-shadow: 0 0 18.69px 2.31px rgba(194, 170, 52, 0.21);
+}
 
 .productoftheday {
   padding-bottom: 100px;
@@ -580,32 +583,29 @@ h3 {
     justify-content: space-between;
     flex-wrap: wrap;
 
-
     .our-fruits-nav-item {
       padding: 8px;
       border-radius: 50px;
-      border: 1px transparent;
+      border: 1px solid transparent;
       font-size: 18px;
       font-family: Montserrat, sans-serif;
       background-color: #fff;
       color: #0d1a07;
-      box-shadow: none;
       max-width: 154px;
+      cursor: pointer;
 
+      &:hover {
+        background-color: rgb(30, 51, 19);
+        color: white;
+      }
 
+      &.active {
+        background-color: rgb(30, 51, 19);
+        color: white;
+
+      }
     }
-
-    .our-fruits-nav-item:hover {
-      font-size: 18px;
-      background-color: rgb(30, 51, 19);
-      color: white;
-
-
-    }
-
-
   }
-
 
   .products_item {
     //border: none;
@@ -1013,6 +1013,17 @@ svg {
 
 .up {
   display: none;
+  width: 40px;
+  height: 40px;
+  position: fixed;
+
+  justify-content: center;
+  align-items: center;
+  bottom: 220px;
+  right: 16px;
+  background: no-repeat;
+  padding-bottom: 7px;
+  z-index: 100;
 }
 
 .form-container {
@@ -1024,7 +1035,7 @@ svg {
 
   display: none;
   position: fixed;
-  z-index: 1;
+  z-index: 99;
   left: 0;
   top: 0;
   width: 100%;
@@ -1058,7 +1069,26 @@ svg {
 .form__body {
   position: relative;
 }
-
+.thank-you {
+  display: none;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  font-size: 50px;
+  width: 550px;
+  height: 550px;
+  margin: 0 auto;
+  color: #fff;
+  padding: 30px 30px;
+  background-color: #dad55e;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, .2);
+  border-radius: 50px;
+  position: fixed;
+  z-index: 999999;
+}
 .form__body::after {
   content: "";
   position: absolute;
@@ -1066,10 +1096,11 @@ svg {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(51, 51, 51, 0.9) url("images/VAyR.gif") center / 50px no-repeat;
+  background: rgba(51, 51, 51, 0.9) url("../../images/VAyR.gif") center / 50px no-repeat;
   opacity: 0;
   visibility: hidden;
   transition: all 0.5s ease 0s;
+  border-radius: 50px;
 }
 
 .form__body._sending::after {
@@ -1162,20 +1193,7 @@ svg {
   color: #d0ab56;;
 }
 
-.success-message {
-  max-width: 550px;
-  margin: 0 auto;
-  color: #fff;
-  padding: 30px 30px;
-  background-color: #dad55e;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  border-radius: 50px;
-  position: fixed;
-}
+
 
 
 @import 'adaptive';
-

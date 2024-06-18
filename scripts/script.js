@@ -1,5 +1,6 @@
 $(document).ready(function () {
 
+
     $('#burger').click(function () {
         $('#menu').addClass('open');
     });
@@ -12,13 +13,13 @@ $(document).ready(function () {
         slidesToShow: 3,
         slidesToScroll: 1,
         vertical: true,
-        // autoplay: true,
-        // autoplaySpeed: 1500,
+        autoplay: true,
+        autoplaySpeed: 1500,
         prevArrow: '<img src="../images/next-fr.png">',
         nextArrow: '<img src="../images/next-frd.png">',
         responsive: [
             {
-                breakpoint: 1025,
+                breakpoint: 1026,
                 settings: {
                     vertical: false
                 }
@@ -40,23 +41,9 @@ $(document).ready(function () {
             }
         ]
     });
-    const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
 
-    navLinks.forEach(link => {
-        link.addEventListener('mouseenter', function () {
-            navLinks.forEach(link => link.classList.remove('active'));
-            this.classList.add('active');
-        });
 
-        link.addEventListener('mouseleave', function () {
-            this.classList.remove('active');
-        });
 
-        link.addEventListener('click', function () {
-            navLinks.forEach(link => link.classList.remove('active'));
-            this.classList.add('active');
-        });
-    });
 
     const deadline = new Date(2024, 5, 30);
 
@@ -92,10 +79,6 @@ $(document).ready(function () {
     timerId = setInterval(countdownTimer, 1000);
 
 
-    $('.orderButton').on('click', function () {
-        $('#orderFormContainer').fadeIn();
-    });
-
 
     $('.close').on('click', function () {
         $('#orderFormContainer').fadeOut();
@@ -109,7 +92,9 @@ $(document).ready(function () {
     });
 
 
-    $('#orderForm').on('submit', function (event) {
+    let $orderForm = $('#orderForm');
+
+    $orderForm.on('submit', function(event) {
         event.preventDefault();
 
         let error = formValidate(this);
@@ -117,20 +102,25 @@ $(document).ready(function () {
         if (error === 0) {
             let formData = $(this).serialize();
 
+            $(this).addClass('_sending');
+
             $.ajax({
                 type: 'POST',
                 url: 'https://testologia.ru/checkout',
                 data: formData,
-                success: function (response) {
+                success: function(response) {
+                    $orderForm.removeClass('_sending');
+
                     if (response.success === 1) {
-                        alert('Ваш заказ успешно принят, дождитесь звонка оператора.');
-                        $('#orderFormContainer').fadeOut();
-                        $('#orderForm')[0].reset();
+                        $orderForm.hide();
+                        $('.thank-you').css('display', 'flex');
+                        $orderForm[0].reset();
                     } else {
                         alert('Ошибка: неверные данные');
                     }
                 },
-                error: function () {
+                error: function() {
+                    $orderForm.removeClass('_sending');
                     alert('Ошибка при отправке формы');
                 }
             });
@@ -181,6 +171,72 @@ $(document).ready(function () {
     }
 
 
+
+    const fruitsData = [
+        { name: 'Манго, Вьетнам', image: 'манго.png', price: '50 руб./кг', category: ['акции', 'новинки'] },
+        { name: 'Маракуйя, Таиланд', image: 'маракуйя.png', price: '45 руб./кг', category: ['новинки'] },
+        { name: 'Кокос, ЮАР', image: 'кокос.png', price: '37 руб./кг', category: ['акции'] },
+        { name: 'Питахайя, Таиланд', image: 'питахайя.png', price: '61 руб./кг', category: ['самые редкие'] },
+        { name: 'Ананас, Таиланд', image: 'ананас.png', price: '48 руб./кг', category: ['новинки'] },
+        { name: 'Папайя, Бразилия', image: 'papaya.png', price: '57 руб./кг', category: ['самые редкие', 'новинки'] }
+    ];
+
+    function renderFruits(category) {
+        const fruitsContainer = $('.products_items');
+        fruitsContainer.empty();
+
+        let filteredFruits = fruitsData;
+        if (category && category !== 'все') {
+            filteredFruits = fruitsData.filter(fruit => fruit.category.includes(category));
+        }
+
+        filteredFruits.forEach(fruit => {
+            fruitsContainer.append(`
+            <div class="products_item ">
+                <img src="images/${fruit.image}" class="card-img wow animate__pulse" alt="${fruit.name}">
+                <div class="card-body">
+                    <h5 class="card-title">${fruit.name}</h5>
+                    <p class="card-text">${fruit.price}</p>
+                    <button class="btn orderButton">Заказать</button>
+                </div>
+            </div>
+        `);
+        });
+
+        $('.orderButton').on('click', function () {
+            $('#orderFormContainer').fadeIn();
+        });
+    }
+
+    function changeCategory(category) {
+        $('.filter-button').removeClass('active');
+        $(`#${category}`).addClass('active');
+        renderFruits(category.toLowerCase());
+    }
+
+
+    $('#all').on('click', function () {
+        changeCategory('все');
+    });
+
+    $('#rare').on('click', function () {
+        changeCategory('самые редкие');
+    });
+
+    $('#sale').on('click', function () {
+        changeCategory('акции');
+    });
+
+    $('#new').on('click', function () {
+        changeCategory('новинки');
+    });
+
+
+    renderFruits('все');
+
+    new WOW({
+        animateClass:'animate__animated',
+    }).init();
 });
 
 
