@@ -43,8 +43,6 @@ $(document).ready(function () {
     });
 
 
-
-
     const deadline = new Date(2024, 5, 30);
 
     let timerId = null;
@@ -79,7 +77,6 @@ $(document).ready(function () {
     timerId = setInterval(countdownTimer, 1000);
 
 
-
     $('.close').on('click', function () {
         $('#orderFormContainer').fadeOut();
     });
@@ -92,67 +89,69 @@ $(document).ready(function () {
     });
 
 
+    let $orderForm = $('#orderForm');
+    let $thankYouBlock = $('.thank-you');
+    let $orderButton = $('.orderButton');
 
-        let $orderForm = $('#orderForm');
-        let $thankYouBlock = $('.thank-you');
-        let $orderButton = $('.orderButton');
+
+    function hideThankYouBlock() {
+        $thankYouBlock.hide();
+    }
 
 
-        function hideThankYouBlock() {
-            $thankYouBlock.hide();
+    $(document).on('click', function (event) {
+        if (!$(event.target).closest('.thank-you').length) {
+            hideThankYouBlock();
         }
+    });
 
 
-        $(document).on('click', function (event) {
-            if (!$(event.target).closest('.thank-you').length) {
-                hideThankYouBlock();
-            }
-        });
+    $orderForm.on('submit', function (event) {
+        event.preventDefault();
+
+        let error = formValidate(this);
+
+        if (error === 0) {
+            let formData = $(this).serialize();
+
+            $(this).addClass('_sending');
+
+            $.ajax({
+                type: 'POST',
+                url: 'https://testologia.ru/checkout',
+                data: formData,
+                success: function (response) {
+                    $orderForm.removeClass('_sending');
 
 
-        $orderForm.on('submit', function(event) {
-            event.preventDefault();
+                    if (response.success === 1) {
+                        // Успех
+                        $orderForm.hide();
+                        $thankYouBlock.css('display', 'flex');
+                        $orderForm[0].reset();
+                    } else {
 
-            let error = formValidate(this);
-
-            if (error === 0) {
-                let formData = $(this).serialize();
-
-                $(this).addClass('_sending');
-
-                $.ajax({
-                    type: 'POST',
-                    url: 'https://testologia.ru/checkout',
-                    data: formData,
-                    success: function(response) {
-                        $orderForm.removeClass('_sending');
-
-                        if (response.success === 1) {
-                            $orderForm.hide();
-                            $thankYouBlock.css('display', 'flex');
-                            $orderForm[0].reset();
-                        } else if (response.success === 0) {
-                            alert('Данные успешно отправлены, но возникла ошибка на сервере.');
-                        } else {
-                            alert('Неожиданный ответ от сервера.');
-                        }
-                    },
-                    error: function() {
-                        $orderForm.removeClass('_sending');
-                        alert('Ошибка при отправке формы');
+                        alert('Данные успешно отправлены, но возникла ошибка на сервере.');
                     }
-                });
-            } else {
-                alert('Заполните обязательные поля');
-            }
-        });
+                },
+                error: function () {
+
+                    $orderForm.removeClass('_sending');
+                    alert('Ошибка при отправке формы');
+                }
+            });
+        } else {
+
+            alert('Заполните обязательные поля');
+        }
+    });
 
 
-    $orderButton.on('click', function() {
-            $thankYouBlock.hide();
-            $orderForm.show();
-        });
-
+    $orderButton.on('click', function () {
+        hideThankYouBlock();
+        $orderForm.show();
+        $('#orderFormContainer').fadeIn();
+    });
 
 
     function formValidate(form) {
@@ -197,16 +196,17 @@ $(document).ready(function () {
     }
 
 
-
     const fruitsData = [
-        { name: 'Манго, Вьетнам', image: 'манго.png', price: '50 руб./кг', category: ['sale', 'new'] },
-        { name: 'Маракуйя, Таиланд', image: 'маракуйя.png', price: '45 руб./кг', category: ['new'] },
-        { name: 'Кокос, ЮАР', image: 'кокос.png', price: '37 руб./кг', category: ['sale'] },
-        { name: 'Питахайя, Таиланд', image: 'питахайя.png', price: '61 руб./кг', category: ['rare'] },
-        { name: 'Ананас, Таиланд', image: 'ананас.png', price: '48 руб./кг', category: ['new'] },
-        { name: 'Папайя, Бразилия', image: 'papaya.png', price: '57 руб./кг', category: ['rare', 'new'] }
+        {name: 'Манго, Вьетнам', image: 'манго.png', price: '50 руб./кг', category: ['sale', 'new']},
+        {name: 'Маракуйя, Таиланд', image: 'маракуйя.png', price: '45 руб./кг', category: ['new']},
+        {name: 'Кокос, ЮАР', image: 'кокос.png', price: '37 руб./кг', category: ['sale']},
+        {name: 'Питахайя, Таиланд', image: 'питахайя.png', price: '61 руб./кг', category: ['rare']},
+        {name: 'Ананас, Таиланд', image: 'ананас.png', price: '48 руб./кг', category: ['new']},
+        {name: 'Папайя, Бразилия', image: 'papaya.png', price: '57 руб./кг', category: ['rare', 'new']}
     ];
-
+    $(document).on('click', '.orderButton', function () {
+        $('#orderFormContainer').fadeIn();
+    });
 
     function renderFruits(category) {
         const fruitsContainer = $('.products_items');
@@ -219,20 +219,18 @@ $(document).ready(function () {
 
         filteredFruits.forEach(fruit => {
             fruitsContainer.append(`
-            <div class="products_item ">
-                <img src="images/${fruit.image}" class="card-img wow animate__pulse" alt="${fruit.name}">
-                <div class="card-body">
-                    <h5 class="card-title">${fruit.name}</h5>
-                    <p class="card-text">${fruit.price}</p>
-                    <button class="btn orderButton">Заказать</button>
-                </div>
-            </div>
-        `);
+    <div class="products_item">
+        <img src="images/${fruit.image}" class="card-img wow animate__pulse" alt="${fruit.name}">
+        <div class="card-body">
+            <h5 class="card-title">${fruit.name}</h5>
+            <p class="card-text">${fruit.price}</p>
+            <button class="btn orderButton">Заказать</button>
+        </div>
+    </div>
+`);
+
         });
 
-        $orderButton.on('click', function () {
-            $('#orderFormContainer').fadeIn();
-        });
     }
 
     function changeCategory(category) {
@@ -261,7 +259,7 @@ $(document).ready(function () {
     renderFruits('all');
 
     new WOW({
-        animateClass:'animate__animated',
+        animateClass: 'animate__animated',
     }).init();
 });
 
