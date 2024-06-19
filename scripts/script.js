@@ -92,42 +92,69 @@ $(document).ready(function () {
     });
 
 
-    let $orderForm = $('#orderForm');
 
-    $orderForm.on('submit', function(event) {
-        event.preventDefault();
+        let $orderForm = $('#orderForm');
+        let $thankYouBlock = $('.thank-you');
+        let $orderButton = $('.orderButton');
 
-        let error = formValidate(this);
 
-        if (error === 0) {
-            let formData = $(this).serialize();
-
-            $(this).addClass('_sending');
-
-            $.ajax({
-                type: 'POST',
-                url: 'https://testologia.ru/checkout',
-                data: formData,
-                success: function(response) {
-                    $orderForm.removeClass('_sending');
-
-                    if (response.success === 1) {
-                        $orderForm.hide();
-                        $('.thank-you').css('display', 'flex');
-                        $orderForm[0].reset();
-                    } else {
-                        alert('Ошибка: данные не приняты сервером');
-                    }
-                },
-                error: function() {
-                    $orderForm.removeClass('_sending');
-                    alert('Ошибка при отправке формы');
-                }
-            });
-        } else {
-            alert('Заполните обязательные поля');
+        function hideThankYouBlock() {
+            $thankYouBlock.hide();
         }
-    });
+
+
+        $(document).on('click', function (event) {
+            if (!$(event.target).closest('.thank-you').length) {
+                hideThankYouBlock();
+            }
+        });
+
+
+        $orderForm.on('submit', function(event) {
+            event.preventDefault();
+
+            let error = formValidate(this);
+
+            if (error === 0) {
+                let formData = $(this).serialize();
+
+                $(this).addClass('_sending');
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'https://testologia.ru/checkout',
+                    data: formData,
+                    success: function(response) {
+                        $orderForm.removeClass('_sending');
+
+                        if (response.success === 1) {
+                            $orderForm.hide();
+                            $thankYouBlock.css('display', 'flex');
+                            $orderForm[0].reset();
+                        } else if (response.success === 0) {
+                            alert('Данные успешно отправлены, но возникла ошибка на сервере.');
+                        } else {
+                            alert('Неожиданный ответ от сервера.');
+                        }
+                    },
+                    error: function() {
+                        $orderForm.removeClass('_sending');
+                        alert('Ошибка при отправке формы');
+                    }
+                });
+            } else {
+                alert('Заполните обязательные поля');
+            }
+        });
+
+
+    $orderButton.on('click', function() {
+            $thankYouBlock.hide();
+            $orderForm.show();
+        });
+
+
+
     function formValidate(form) {
         let error = 0;
         let formReq = form.querySelectorAll('._req');
@@ -203,7 +230,7 @@ $(document).ready(function () {
         `);
         });
 
-        $('.orderButton').on('click', function () {
+        $orderButton.on('click', function () {
             $('#orderFormContainer').fadeIn();
         });
     }
@@ -237,7 +264,5 @@ $(document).ready(function () {
         animateClass:'animate__animated',
     }).init();
 });
-
-
 
 
