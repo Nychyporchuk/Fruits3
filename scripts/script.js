@@ -116,7 +116,7 @@ $(document).ready(function () {
                         $('.thank-you').css('display', 'flex');
                         $orderForm[0].reset();
                     } else {
-                        alert('Ошибка: неверные данные');
+                        alert('Ошибка: данные не приняты сервером');
                     }
                 },
                 error: function() {
@@ -128,7 +128,6 @@ $(document).ready(function () {
             alert('Заполните обязательные поля');
         }
     });
-
     function formValidate(form) {
         let error = 0;
         let formReq = form.querySelectorAll('._req');
@@ -173,20 +172,21 @@ $(document).ready(function () {
 
 
     const fruitsData = [
-        { name: 'Манго, Вьетнам', image: 'манго.png', price: '50 руб./кг', category: ['акции', 'новинки'] },
-        { name: 'Маракуйя, Таиланд', image: 'маракуйя.png', price: '45 руб./кг', category: ['новинки'] },
-        { name: 'Кокос, ЮАР', image: 'кокос.png', price: '37 руб./кг', category: ['акции'] },
-        { name: 'Питахайя, Таиланд', image: 'питахайя.png', price: '61 руб./кг', category: ['самые редкие'] },
-        { name: 'Ананас, Таиланд', image: 'ананас.png', price: '48 руб./кг', category: ['новинки'] },
-        { name: 'Папайя, Бразилия', image: 'papaya.png', price: '57 руб./кг', category: ['самые редкие', 'новинки'] }
+        { name: 'Манго, Вьетнам', image: 'манго.png', price: '50 руб./кг', category: ['sale', 'new'] },
+        { name: 'Маракуйя, Таиланд', image: 'маракуйя.png', price: '45 руб./кг', category: ['new'] },
+        { name: 'Кокос, ЮАР', image: 'кокос.png', price: '37 руб./кг', category: ['sale'] },
+        { name: 'Питахайя, Таиланд', image: 'питахайя.png', price: '61 руб./кг', category: ['rare'] },
+        { name: 'Ананас, Таиланд', image: 'ананас.png', price: '48 руб./кг', category: ['new'] },
+        { name: 'Папайя, Бразилия', image: 'papaya.png', price: '57 руб./кг', category: ['rare', 'new'] }
     ];
+
 
     function renderFruits(category) {
         const fruitsContainer = $('.products_items');
         fruitsContainer.empty();
 
         let filteredFruits = fruitsData;
-        if (category && category !== 'все') {
+        if (category && category !== 'all') {
             filteredFruits = fruitsData.filter(fruit => fruit.category.includes(category));
         }
 
@@ -209,34 +209,35 @@ $(document).ready(function () {
     }
 
     function changeCategory(category) {
-        $('.filter-button').removeClass('active');
-        $(`#${category}`).addClass('active');
+        $('.our-fruits-nav-item').removeClass('active');
+        $('#' + category).addClass('active');
         renderFruits(category.toLowerCase());
     }
 
-
     $('#all').on('click', function () {
-        changeCategory('все');
+        changeCategory('all');
     });
 
     $('#rare').on('click', function () {
-        changeCategory('самые редкие');
+        changeCategory('rare');
     });
 
     $('#sale').on('click', function () {
-        changeCategory('акции');
+        changeCategory('sale');
     });
 
     $('#new').on('click', function () {
-        changeCategory('новинки');
+        changeCategory('new');
     });
 
 
-    renderFruits('все');
+    renderFruits('all');
 
     new WOW({
         animateClass:'animate__animated',
     }).init();
 });
+
+
 
 
